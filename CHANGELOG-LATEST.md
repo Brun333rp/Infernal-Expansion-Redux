@@ -1,4 +1,3 @@
 ### Fixed
 
-- Fixed strange Glowsilk Bow arrow behaviour.
-- Fixed Glowsilk Bows being unenchantable.
+- Fixed possible strange behaviour placing Quartz or Bones (can delete non-solid blocks).

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.19] - 2026-10-08
+
+### Fixed
+
+- Fixed possible strange behaviour placing Quartz or Bones (can delete non-solid blocks).
+
 ## [0.3.18] - 2026-09-28
 
 ### Fixed

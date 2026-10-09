@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -94,36 +95,32 @@ public class ItemMixin {
             }
         }
 
-        BlockPos relativePos = pos.relative(context.getClickedFace(), 1);
-
         if ((Object) this == Items.QUARTZ && !IECommon.getConfig().common.worldGeneration.preventQuartzPlacement) {
-            BlockState state = ModBlocks.PLANTED_QUARTZ.get().getStateForPlacement(new BlockPlaceContext(context));
-            if (state != null && state.canSurvive(level, relativePos)) {
-                level.setBlock(relativePos, state, Block.UPDATE_ALL);
-                SoundType soundtype = state.getSoundType();
-                level.playSound(player, relativePos, soundtype.getPlaceSound(), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+            infernalexp$placeSupportedBlock(context, ModBlocks.PLANTED_QUARTZ.get(), cir);
+        } else if ((Object) this == Items.BONE && !IECommon.getConfig().common.worldGeneration.preventBonePlacement) {
+            infernalexp$placeSupportedBlock(context, ModBlocks.BURIED_BONE.get(), cir);
+        }
+    }
 
-                if (player != null && !player.getAbilities().instabuild) {
-                    stack.shrink(1);
-                }
+    @Unique
+    private static void infernalexp$placeSupportedBlock(UseOnContext context, Block block, CallbackInfoReturnable<InteractionResult> cir) {
+        BlockPlaceContext placeContext = new BlockPlaceContext(context);
+        if (!placeContext.canPlace()) return;
 
-                cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
-            }
+        Level level = placeContext.getLevel();
+        BlockPos placePos = placeContext.getClickedPos();
+        BlockState state = block.getStateForPlacement(placeContext);
+        if (state == null || !state.canSurvive(level, placePos)) return;
+
+        level.setBlock(placePos, state, Block.UPDATE_ALL);
+        SoundType soundtype = state.getSoundType();
+        Player player = placeContext.getPlayer();
+        level.playSound(player, placePos, soundtype.getPlaceSound(), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+
+        if (player != null && !player.getAbilities().instabuild) {
+            placeContext.getItemInHand().shrink(1);
         }
 
-        if ((Object) this == Items.BONE && !IECommon.getConfig().common.worldGeneration.preventBonePlacement) {
-            BlockState state = ModBlocks.BURIED_BONE.get().getStateForPlacement(new BlockPlaceContext(context));
-            if (state != null && state.canSurvive(level, relativePos)) {
-                level.setBlock(relativePos, state, Block.UPDATE_ALL);
-                SoundType soundtype = state.getSoundType();
-                level.playSound(player, relativePos, soundtype.getPlaceSound(), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-
-                if (player != null && !player.getAbilities().instabuild) {
-                    stack.shrink(1);
-                }
-
-                cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
-            }
-        }
+        cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
     }
 }
