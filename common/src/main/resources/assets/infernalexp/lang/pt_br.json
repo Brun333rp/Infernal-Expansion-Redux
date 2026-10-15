@@ -205,6 +205,6 @@
   "text.autoconfig.infernalexp.option.common.worldGeneration.preventBonePlacement": "Impedir posicionamento de Ossos",
   "text.autoconfig.infernalexp.option.common.worldGeneration.preventBonePlacement.@Tooltip": "Se ativado, impede jogadores de posicionarem Ossos Enterrados utilizando o item Osso.",
   "text.autoconfig.infernalexp.option.common.worldGeneration.preventQuartzPlacement": "Impedir posicionamento de Quartzos",
-  "text.autoconfig.infernalexp.option.common.worldGeneration.preventQuartzPlacement.@Tooltip": "Se ativado, impede jogadores de posicionarem Quartzo Cravados utilizando o item Quartzo.",
+  "text.autoconfig.infernalexp.option.common.worldGeneration.preventQuartzPlacement.@Tooltip": "Se ativado, impede jogadores de posicionarem Quartzos Cravados utilizando o item Quartzo.",
   "text.autoconfig.infernalexp.title": "Configurações do Infernal Expansion"
 }
